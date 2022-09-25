@@ -15,13 +15,16 @@ def get_database() -> pm.database.Database:
     return database
 
 """
-Create the connection to the collection
+Drop the collection if it exists and create a new one with an index
 param: {pymongo.database.Database} database - database connection
 param: {string} collection - name of the collection
 return: {pymongo.collection.Collection} collection
 """
-def get_collection(database: pm.database.Database, collection: str) -> pm.collection.Collection:
-    return database[collection]
+def get_collection(database: pm.database.Database, collection_name: str) -> pm.collection.Collection:
+    collection = database[collection_name]
+    collection.drop()
+    collection.create_index([ ("user_id", 1) ], unique=True)
+    return collection
 
 """
 Insert a row into the collection if it doesn't exist, otherwise update it
@@ -30,7 +33,7 @@ param: {list} row - row to insert
 return: {None}
 """
 def insert_row(collection: pm.collection.Collection, row: list) -> None:
-    [x, y] = row[3].split(',')
+    [x, y, *rest] = row[3].split(',')
 
     query = { "user_id": row[1] }
     values = {
