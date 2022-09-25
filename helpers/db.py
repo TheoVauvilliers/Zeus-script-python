@@ -17,10 +17,10 @@ def get_database() -> pm.database.Database:
 """
 Drop the collection if it exists and create a new one with an index
 param: {pymongo.database.Database} database - database connection
-param: {string} collection - name of the collection
+param: {string} collection_name - name of the collection
 return: {pymongo.collection.Collection} collection
 """
-def get_collection(database: pm.database.Database, collection_name: str) -> pm.collection.Collection:
+def init_and_get_collection(database: pm.database.Database, collection_name: str) -> pm.collection.Collection:
     collection = database[collection_name]
     collection.drop()
     collection.create_index([ ("user_id", 1) ], unique=True)

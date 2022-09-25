@@ -1,13 +1,13 @@
 from time import time
 from pprint import pprint
 from helpers.file import create_list_of_files, read_csv_file
-from helpers.db import get_database, get_collection, insert_row
+from helpers.db import get_database, init_and_get_collection, insert_row
 
 if __name__ == "__main__":
     timer_start = time()
 
     db = get_database()
-    collection = get_collection(db, "log")
+    collection = init_and_get_collection(db, "log")
 
     list_of_files = create_list_of_files("public/upload")
     number_rows_inserted = 0
