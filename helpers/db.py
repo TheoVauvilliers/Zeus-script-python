@@ -1,7 +1,4 @@
-from array import array
 import pymongo as pm
-
-from pprint import pprint
 
 MONGODB_URI = 'mongodb://admin:admin@localhost:27017/'
 MONGODB_DATABASE = 'zeus'
