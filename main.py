@@ -10,6 +10,7 @@ if __name__ == "__main__":
     collection = get_collection(db, "log")
 
     list_of_files = create_list_of_files("public/upload")
+    number_rows_inserted = 0
 
     for file in list_of_files:
         pprint(f"Processing file: {file}")
@@ -17,7 +18,9 @@ if __name__ == "__main__":
 
         for index, row in data.iterrows():
             insert_row(collection, row.array)
+            number_rows_inserted += 1
 
     timer_end = time()
 
-    pprint(f"Time: {timer_end - timer_start}s")
+    pprint(f"Number of rows inserted: {number_rows_inserted}")
+    pprint(f"End of script. Time elapsed: {timer_end - timer_start}s")

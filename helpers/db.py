@@ -1,3 +1,4 @@
+from array import array
 import pymongo as pm
 
 from pprint import pprint
@@ -9,7 +10,7 @@ MONGODB_DATABASE = 'zeus'
 Create the connection to the database
 return: {pymongo.database.Database} database
 """
-def get_database():
+def get_database() -> pm.database.Database:
     client = pm.MongoClient(MONGODB_URI)
 
     database = client[MONGODB_DATABASE]
@@ -22,15 +23,16 @@ param: {pymongo.database.Database} database - database connection
 param: {string} collection - name of the collection
 return: {pymongo.collection.Collection} collection
 """
-def get_collection(database, collection):
+def get_collection(database: pm.database.Database, collection: str) -> pm.collection.Collection:
     return database[collection]
 
 """
 Insert a row into the collection if it doesn't exist, otherwise update it
 param: {pymongo.collection.Collection} collection - collection connection
-param: {dict} row - row to insert
+param: {list} row - row to insert
+return: {None}
 """
-def insert_row(collection, row):
+def insert_row(collection: pm.collection.Collection, row: list) -> None:
     [x, y] = row[3].split(',')
 
     query = { "user_id": row[1] }
