@@ -23,4 +23,4 @@ if __name__ == "__main__":
     timer_end = time()
 
     pprint(f"Number of rows inserted: {number_rows_inserted}")
-    pprint(f"End of script. Time elapsed: {timer_end - timer_start}s")
+    pprint(f"End of script. Time elapsed: {round((timer_end - timer_start) / 60, 2)}min")
