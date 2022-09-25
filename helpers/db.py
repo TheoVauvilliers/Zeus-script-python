@@ -9,7 +9,6 @@ return: {pymongo.database.Database} database
 """
 def get_database() -> pm.database.Database:
     client = pm.MongoClient(MONGODB_URI)
-
     database = client[MONGODB_DATABASE]
 
     return database
@@ -33,7 +32,7 @@ param: {list} row - row to insert
 return: {None}
 """
 def insert_row(collection: pm.collection.Collection, row: list) -> None:
-    [x, y, *rest] = row[3].split(',')
+    x, y, *_ = row[3].split(',')
 
     query = { "user_id": row[1] }
     values = {
