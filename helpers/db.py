@@ -23,29 +23,34 @@ def init_and_get_collection(database: pm.database.Database, collection_name: str
     collection = database[collection_name]
     collection.drop()
     collection.create_index([ ("user_id", 1) ], unique=True)
-    return collection
+    return collection   
 
 """
-Insert a row into the collection if it doesn't exist, otherwise update it
+Execute the bulk operation
 param: {pymongo.collection.Collection} collection - collection connection
-param: {list} row - row to insert
-return: {None}
+param: {list} rows - list of rows to insert
+return: None
 """
-def insert_row(collection: pm.collection.Collection, row: list) -> None:
-    x, y, *_ = row[3].split(',')
+def bulk_execute(collection: pm.collection.Collection, rows: list) -> None:
+    data = []
 
-    query = { "user_id": row[1] }
-    values = {
-        "$push" : {
-            "pixels": {
-                "timestamp": row[0],
-                "pixel_color": row[2],
-                "coordinate": {
-                    "x": x,
-                    "y": y,
-                },
+    for row in rows:
+        x, y, *_ = row[3].split(',')
+        user = { "user_id": row[1] }
+        value = {
+            "$inc": { "number_of_pixels": 1 },
+            "$push" : {
+                "pixels": {
+                    "timestamp": row[0],
+                    "pixel_color": row[2],
+                    "coordinate": {
+                        "x": x,
+                        "y": y,
+                    },
+                }
             }
         }
-    }
 
-    collection.update_one(query, values, upsert=True)
+        data.append(pm.UpdateOne(user, value, upsert=True))
+    
+    collection.bulk_write(data, ordered=False)
