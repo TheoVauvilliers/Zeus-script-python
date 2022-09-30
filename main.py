@@ -3,7 +3,7 @@ from pprint import pprint
 from helpers.file import create_list_of_files, read_csv_file
 from helpers.db import get_database, init_and_get_collection, bulk_execute
 
-BULK_SIZE = 10000
+BULK_SIZE = 1000
 LOG_ROWS_NUMBER = 100000
 
 if __name__ == "__main__":
